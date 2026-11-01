@@ -36,10 +36,36 @@ functions/api/         Cloudflare Pages Functions (Tier B worker) — added with
 1. Create `tools/<name>.js` exporting a descriptor with `render(root)`.
 2. Import it in `assets/js/registry.js` and add it to `TOOLS`.
 
+## Tier B worker
+
+Live tools call one backend under `/api`, implemented as Cloudflare Pages Functions
+in `functions/api/`. `_middleware.js` handles CORS; `_lib.js` holds the shared JSON
+responses, a rate limit, the consent gate, and the SSRF guard for the proxy.
+
+Endpoints so far (all passive, GET):
+
+```
+/api/dns?name=&type=      DNS over DoH
+/api/rdns?ip=             reverse DNS (PTR)
+/api/whois?q=             RDAP for a domain or IP (IANA bootstrap)
+/api/crtsh?domain=        crt.sh CT logs + passive subdomains
+/api/cve?id= | ?keyword=  NVD CVE search
+/api/hibp?prefix=         Pwned Passwords range (browser sends 5 hex chars only)
+```
+
+Optional env vars raise limits or unlock features: `NVD_KEY` (NVD), `HIBP_KEY`
+(HIBP breach-by-account). Bind a KV namespace `CK_RL` for a global rate limit;
+without it the limit is per-isolate best-effort.
+
+Run the worker locally with `npx wrangler pages dev .` (serves the static site and
+`/api` together). The front-end calls same-origin `/api` by default; set
+`window.CK_API` to point elsewhere.
+
 ## Deploy
 
 Cloudflare Pages: connect the repo, build command none, output directory `/`.
-Tier B tools need the Pages Functions in `functions/` plus any API keys as env vars.
+The Pages Functions in `functions/` deploy automatically. Add any API keys and the
+`CK_RL` KV binding in the Pages project settings.
 
 ## Scope
 

@@ -66,14 +66,20 @@ import wpa from '../../tools/wifi_wpa.js';
 import kdf from '../../tools/crypto_kdf.js';
 import disasm from '../../tools/re_disasm.js';
 import shellcode from '../../tools/re_shellcode.js';
+import livedns from '../../tools/recon_dns.js';
+import rdns from '../../tools/recon_rdns.js';
+import whois from '../../tools/recon_whois.js';
+import crtsh from '../../tools/recon_crtsh.js';
+import cve from '../../tools/vuln_cve.js';
+import hibp from '../../tools/pass_hibp.js';
 
 export const TOOLS = [
   encoding, recipe, hash, crypto, keygen, hashid, hmac, kdf, magic,
-  cidr, ipobf, favicon, dork, osint,
-  cvss, nuclei,
+  cidr, ipobf, favicon, dork, osint, livedns, rdns, whois, crtsh,
+  cvss, nuclei, cve,
   jwt, payloads, robots,
   sqli, connstr,
-  pwgen, pwstrength, wordlist, rules, cracker,
+  pwgen, pwstrength, wordlist, rules, cracker, hibp,
   wifichan, wpa,
   reHex, reStrings, binfmt, disasm, shellcode,
   revshell, encoder, lolbins,
