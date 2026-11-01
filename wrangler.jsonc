@@ -1,0 +1,16 @@
+{
+  // Cloudflare Pages config. The static site is the repo root; the Tier B
+  // worker lives in functions/ and is picked up automatically.
+  "name": "kcyber-toolkit",
+  "compatibility_date": "2026-11-01",
+  "pages_build_output_dir": "."
+
+  // Bindings to add in the Pages dashboard (or uncomment with real ids):
+  //
+  // "kv_namespaces": [
+  //   { "binding": "CK_RL", "id": "<kv-namespace-id>" }  // global rate limit
+  // ]
+  //
+  // Secrets (set with `wrangler pages secret put <NAME>` or in the dashboard):
+  //   NVD_KEY, HIBP_KEY, SHODAN_KEY, CENSYS_PAT, CK_ALLOW_PRIVATE
+}
