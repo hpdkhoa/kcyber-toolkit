@@ -62,6 +62,19 @@ export function copyText(t) {
 export function warn(text) { return h('div', { class: 'warn' }, text); }
 export function note(text) { return h('div', { class: 'note' }, text); }
 
+// render a list of {level, area?, msg} findings with a coloured severity tag
+export function findings(list) {
+  const colors = { high: '#f85149', med: '#d29922', low: '#8b949e' };
+  const box = h('div', { class: 'findings' });
+  if (!list || !list.length) { box.append(h('div', { class: 'out ok' }, 'no issues flagged')); return box; }
+  for (const f of list) {
+    box.append(h('div', { class: 'finding' },
+      h('span', { class: 'lvl', style: 'color:' + (colors[f.level] || '#8b949e') }, (f.level || '').toUpperCase()),
+      ' ', f.area ? h('strong', {}, f.area + ': ') : null, f.msg || f.message || ''));
+  }
+  return box;
+}
+
 // file input that hands back the bytes. Everything stays in the browser.
 export function filePicker(onload, attrs = {}) {
   const inp = h('input', { type: 'file', ...attrs });

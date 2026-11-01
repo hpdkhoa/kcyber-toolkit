@@ -42,7 +42,7 @@ Live tools call one backend under `/api`, implemented as Cloudflare Pages Functi
 in `functions/api/`. `_middleware.js` handles CORS; `_lib.js` holds the shared JSON
 responses, a rate limit, the consent gate, and the SSRF guard for the proxy.
 
-Endpoints so far (all passive, GET):
+Passive endpoints (query public data, do not touch the target):
 
 ```
 /api/dns?name=&type=      DNS over DoH
@@ -51,11 +51,29 @@ Endpoints so far (all passive, GET):
 /api/crtsh?domain=        crt.sh CT logs + passive subdomains
 /api/cve?id= | ?keyword=  NVD CVE search
 /api/hibp?prefix=         Pwned Passwords range (browser sends 5 hex chars only)
+/api/spf?domain=&selector= SPF / DKIM / DMARC over DNS
+/api/shodan?ip=           Shodan host (needs SHODAN_KEY)
+/api/censys?ip=           Censys host (needs CENSYS_PAT)
 ```
 
-Optional env vars raise limits or unlock features: `NVD_KEY` (NVD), `HIBP_KEY`
-(HIBP breach-by-account). Bind a KV namespace `CK_RL` for a global rate limit;
-without it the limit is per-isolate best-effort.
+Active endpoints (contact the target you name; require the consent header
+`x-ck-consent`, are rate-limited, and are refused for private/loopback/metadata
+hosts unless `CK_ALLOW_PRIVATE` is set):
+
+```
+/api/headers?url=         security-header grade
+/api/fingerprint?url=     redirects, server, technologies
+/api/cms?url=             CMS probe
+/api/cookies?url=         cookie flags + CORS reflection
+/api/redirect?url=        open-redirect test
+/api/dirbrute?url=&extra= directory brute (built-in wordlist)
+/api/httpreq  (POST)      request replay / Repeater
+/api/tls?host=&start=     TLS scan (proxies SSL Labs; client polls)
+```
+
+Env vars: `NVD_KEY`, `HIBP_KEY` (breach-by-account), `SHODAN_KEY`, `CENSYS_PAT`,
+`CK_ALLOW_PRIVATE` (allow internal targets on the active tools). Bind a KV
+namespace `CK_RL` for a global rate limit; without it the limit is per-isolate.
 
 Run the worker locally with `npx wrangler pages dev .` (serves the static site and
 `/api` together). The front-end calls same-origin `/api` by default; set

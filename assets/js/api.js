@@ -34,3 +34,11 @@ async function call(path, { params, method = 'GET', body, consent } = {}) {
 
 export const apiGet = (path, params, opts = {}) => call(path, { ...opts, params });
 export const apiPost = (path, body, opts = {}) => call(path, { ...opts, method: 'POST', body });
+
+// A consent checkbox for active tools. ok() is true once ticked; el mounts it.
+export function consentBox(text = 'I am authorised to test this target') {
+  const cb = document.createElement('input'); cb.type = 'checkbox';
+  const label = document.createElement('label'); label.className = 'inline consent';
+  label.append(cb, document.createTextNode(' ' + text));
+  return { el: label, ok: () => cb.checked };
+}

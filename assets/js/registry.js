@@ -72,12 +72,23 @@ import whois from '../../tools/recon_whois.js';
 import crtsh from '../../tools/recon_crtsh.js';
 import cve from '../../tools/vuln_cve.js';
 import hibp from '../../tools/pass_hibp.js';
+import fingerprint from '../../tools/recon_fingerprint.js';
+import tls from '../../tools/recon_tls.js';
+import cms from '../../tools/recon_cms.js';
+import shodan from '../../tools/recon_shodan.js';
+import censys from '../../tools/recon_censys.js';
+import headers from '../../tools/web_headers.js';
+import cookies from '../../tools/web_cookies.js';
+import redirect from '../../tools/web_redirect.js';
+import httpreq from '../../tools/web_httpreq.js';
+import dirbrute from '../../tools/web_dirbrute.js';
+import spf from '../../tools/social_spf.js';
 
 export const TOOLS = [
   encoding, recipe, hash, crypto, keygen, hashid, hmac, kdf, magic,
-  cidr, ipobf, favicon, dork, osint, livedns, rdns, whois, crtsh,
+  cidr, ipobf, favicon, dork, osint, livedns, rdns, whois, crtsh, fingerprint, tls, cms, shodan, censys,
   cvss, nuclei, cve,
-  jwt, payloads, robots,
+  jwt, payloads, robots, headers, cookies, redirect, httpreq, dirbrute,
   sqli, connstr,
   pwgen, pwstrength, wordlist, rules, cracker, hibp,
   wifichan, wpa,
@@ -87,5 +98,5 @@ export const TOOLS = [
   privesc, enumtool,
   fMagic, fExif, fStego, fCarver, fTime,
   reportmd, finding,
-  emailhdr, phishing,
+  emailhdr, phishing, spf,
 ];

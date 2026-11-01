@@ -80,14 +80,23 @@ export function isPrivateHost(host) {
   return false;
 }
 
-export function safeTarget(urlStr) {
+// allowPrivate lifts the private/loopback/metadata block. The handlers pass
+// env.CK_ALLOW_PRIVATE so a public deploy stays safe while a private one can opt in.
+export function safeTarget(urlStr, allowPrivate = false) {
   let u;
   try { u = new URL(/^https?:\/\//i.test(urlStr) ? urlStr : 'https://' + urlStr); }
   catch { return { ok: false, reason: 'not a valid URL' }; }
   if (u.protocol !== 'http:' && u.protocol !== 'https:') return { ok: false, reason: 'only http and https' };
-  if (isPrivateHost(u.hostname)) return { ok: false, reason: 'private, loopback or metadata host refused' };
+  if (!allowPrivate && isPrivateHost(u.hostname)) return { ok: false, reason: 'private, loopback or metadata host refused (set CK_ALLOW_PRIVATE to test internal hosts)' };
   return { ok: true, url: u };
 }
+
+export function allowPrivate(env) {
+  const v = env && env.CK_ALLOW_PRIVATE;
+  return v === '1' || v === 'true' || v === true;
+}
+
+export function targetError(reason) { return json({ error: 'target refused', detail: reason }, 400); }
 
 // Fetch with a timeout; returns the Response or throws a tidy error.
 export async function fetchT(url, opts = {}, ms = 10000) {
