@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberKit</title>
+<meta name="description" content="Browser cybersecurity toolkit. Crypto, encoding, hashing, recon, web, forensics. Runs client-side.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='13' font-size='14'>&#128274;</text></svg>">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand" id="home">&#128274; CyberKit</div>
+  <input id="search" class="search" type="search" placeholder="Search tools (/)" autocomplete="off" spellcheck="false">
+  <a class="ghlink" href="https://github.com/" target="_blank" rel="noopener">source</a>
+</header>
+<div class="layout">
+  <nav id="nav" class="nav" aria-label="Tool categories"></nav>
+  <main id="main" class="main">
+    <section id="welcome" class="welcome">
+      <h1>CyberKit</h1>
+      <p class="lead">A browser cybersecurity toolkit. Pick a tool on the left or search.</p>
+      <p class="muted">Tools marked <span class="pill a">static</span> run fully in your browser, nothing leaves the page. Tools marked <span class="pill b">live</span> reach a target through one backend worker, with a consent gate.</p>
+      <div id="catgrid" class="catgrid"></div>
+    </section>
+    <section id="tool" class="tool" hidden></section>
+  </main>
+</div>
+<footer class="foot">
+  <span>Use only on systems you own or are authorised to test.</span>
+</footer>
+<script type="module" src="assets/js/app.js"></script>
+</body>
+</html>
