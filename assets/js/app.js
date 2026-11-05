@@ -24,7 +24,7 @@ function buildNav(filter = '') {
     if (!items.length) continue;
     nav.append(h('div', { class: 'cat' }, c.label));
     for (const t of items) {
-      const a = h('a', { class: 'item', 'data-id': t.id, onclick: () => go(t.id) }, t.title, pill(t.tier));
+      const a = h('a', { class: 'item', href: '#' + t.id, 'data-id': t.id, onclick: (e) => { e.preventDefault(); go(t.id); } }, t.title, pill(t.tier));
       nav.append(a);
     }
   }
@@ -38,7 +38,7 @@ function buildGrid() {
     const card = h('div', { class: 'card' },
       h('h3', {}, c.label),
       h('div', { class: 'n' }, items.length + ' tool' + (items.length > 1 ? 's' : '')));
-    for (const t of items) card.append(h('a', { onclick: () => go(t.id) }, t.title));
+    for (const t of items) card.append(h('a', { href: '#' + t.id, onclick: (e) => { e.preventDefault(); go(t.id); } }, t.title));
     catgrid.append(card);
   }
 }
@@ -68,7 +68,9 @@ function home() {
   if (location.hash) history.pushState({}, '', location.pathname);
 }
 
-document.getElementById('home').addEventListener('click', home);
+const homeEl = document.getElementById('home');
+homeEl.addEventListener('click', home);
+homeEl.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); home(); } });
 search.addEventListener('input', () => buildNav(search.value));
 window.addEventListener('keydown', e => {
   if (e.key === '/' && document.activeElement !== search) { e.preventDefault(); search.focus(); }

@@ -9,6 +9,8 @@ html,body{margin:0;height:100%}
 body{background:var(--bg);color:var(--txt);font:14px/1.5 system-ui,Segoe UI,Roboto,Arial,sans-serif;display:flex;flex-direction:column;min-height:100vh}
 a{color:var(--acc);text-decoration:none}
 a:hover{text-decoration:underline}
+/* visible keyboard focus for every tab-reachable control */
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
 
 .top{display:flex;align-items:center;gap:14px;padding:10px 16px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:10}
 .brand{font-weight:700;font-size:16px;cursor:pointer;white-space:nowrap}
